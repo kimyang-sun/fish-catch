@@ -86,6 +86,16 @@ i {
   height: var(--size-basic);
 }
 
+.game__head .timer,
+.game__head .count {
+  visibility: hidden;
+}
+
+.game__head .timer.on,
+.game__head .count.on {
+  visibility: visible;
+}
+
 .game__head .timer {
   background-color: #fff;
   padding: 6px 12px;
