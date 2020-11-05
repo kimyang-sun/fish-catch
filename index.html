@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./img/favicon/apple-icon-180x180.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="./img/favicon/android-icon-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="./img/favicon/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./img/favicon/favicon-16x16.png"
+    />
+    <meta
+      name="msapplication-TileImage"
+      content="./img/favicon/ms-icon-150x150.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      src="https://kit.fontawesome.com/6f88dac71d.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="src/main.js" defer></script>
+  </head>
+  <body>
+    <main role="main" class="game__wrap">
+      <section class="game__head">
+        <button class="game__btn" type="button">
+          <span class="blind">게임버튼</span>
+          <i class="fas fa-play"></i>
+        </button>
+        <span class="timer">00:00</span>
+        <span class="count">0</span>
+      </section>
+      <section class="game__field"></section>
+      <section class="game__popup">
+        <button class="popup__replay-btn" type="button">
+          <span class="blind">다시시작</span>
+          <i class="fas fa-redo-alt"></i>
+        </button>
+        <span class="popup__text">Replay❓</span>
+      </section>
+    </main>
+  </body>
+</html>
