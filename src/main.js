@@ -46,8 +46,10 @@ function addItem(imgName, imgSrc, count) {
 // Game start
 const timer = document.querySelector(".timer");
 const count = document.querySelector(".count");
+const fishCount = document.querySelector(".fish");
 const gameBtn = document.querySelector(".game__btn");
 let timerValue = undefined;
+let countValue = 0;
 
 gameBtn.addEventListener("click", () => {
   if (started) {
@@ -63,6 +65,7 @@ function start() {
   showPauseIcon();
   showTimerAndCount();
   startTimer();
+  hidePopUp();
 }
 
 function showPauseIcon() {
@@ -80,7 +83,7 @@ function startTimer() {
   timerValue = setInterval(() => {
     updateTimerText(--gameDuration);
     if (gameDuration <= 0) {
-      stop();
+      stop(Reason.lose);
       clearInterval(timerValue);
     }
   }, 1000);
@@ -95,9 +98,14 @@ function updateTimerText(time) {
 }
 
 // Game Stop
+const popUp = document.querySelector(".game__popup");
+const popUpText = document.querySelector(".popup__text");
+const replayBtn = document.querySelector(".popup__replay__btn");
+
 function stop(reason) {
   stopTimer();
   started = false;
+  showPopUp(reason);
   if (reason === Reason.pause) {
     hidePauseIcon();
   } else {
@@ -119,10 +127,39 @@ function hideGameBtn() {
   gameBtn.style.visibility = "hidden";
 }
 
-// 게임 재시작
+function showPopUp(text) {
+  let message;
+  switch (text) {
+    case Reason.pause:
+      message = "Replay❓";
+      break;
+    case Reason.win:
+      message = "You Won 🎉";
+      break;
+    case Reason.lose:
+      message = "You Lost 💀";
+      break;
+    default:
+      throw new Error("not valued reason");
+  }
+  popUpText.innerHTML = message;
+  popUp.classList.add("on");
+}
+
+function hidePopUp() {
+  popUp.classList.remove("on");
+}
+
+// Game ReStart
+replayBtn.addEventListener("click", () => {
+  reStart();
+});
+
 function reStart() {
   gameBtn.style.visibility = "visible";
   started = true;
+  gameDuration = GAME_DURATION;
+  countValue = 0;
   initImage();
   start();
 }
