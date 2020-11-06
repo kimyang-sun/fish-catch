@@ -3,7 +3,7 @@ const FISH_COUNT = 15;
 const URCHIN_COUNT = 5;
 const FISH_SIZE_X = 100;
 const FISH_SIZE_Y = 56;
-const GAME_DURATION = 5;
+const GAME_DURATION = 10;
 
 let gameDuration = GAME_DURATION;
 let started = false;
@@ -46,7 +46,6 @@ function addItem(imgName, imgSrc, count) {
 // Game start
 const timer = document.querySelector(".timer");
 const count = document.querySelector(".count");
-const fishCount = document.querySelector(".fish");
 const gameBtn = document.querySelector(".game__btn");
 let timerValue = undefined;
 let countValue = 0;
@@ -65,6 +64,7 @@ function start() {
   showPauseIcon();
   showTimerAndCount();
   startTimer();
+  fishCount();
   hidePopUp();
 }
 
@@ -87,6 +87,13 @@ function startTimer() {
       clearInterval(timerValue);
     }
   }, 1000);
+}
+
+function fishCount() {
+  count.innerHTML = FISH_COUNT - countValue;
+  if (FISH_COUNT === countValue) {
+    stop(Reason.win);
+  }
 }
 
 function updateTimerText(time) {
@@ -163,3 +170,16 @@ function reStart() {
   initImage();
   start();
 }
+
+// Fish Click
+field.addEventListener("click", event => {
+  if (!started) return;
+  const target = event.target;
+  if (target.matches(".fish")) {
+    target.remove();
+    ++countValue;
+    fishCount();
+  } else if (target.matches(".urchin")) {
+    stop(Reason.lose);
+  }
+});
