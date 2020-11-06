@@ -9,7 +9,7 @@ export default class PopUp {
     });
   }
 
-  setOnClickListener(onClick) {
+  setClickListener(onClick) {
     this.onClick = onClick;
   }
 

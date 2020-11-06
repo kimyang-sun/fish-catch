@@ -1,6 +1,7 @@
 "use strict";
 import * as sound from "./sound.js";
 import PopUp from "./popup.js";
+import { Field } from "./field.js";
 
 // Game PopUp Class
 const gamePopUp = new PopUp();
@@ -20,34 +21,14 @@ const Reason = Object.freeze({
   pause: "pause",
 });
 
-// Game Field
-const field = document.querySelector(".game__field");
-const fieldRect = field.getBoundingClientRect();
-
-function initImage() {
-  field.innerHTML = "";
-  addItem("fish", "./img/fish.png", FISH_COUNT);
-  addItem("urchin", "./img/urchin.png", URCHIN_COUNT);
-}
-
-function addItem(imgName, imgSrc, count) {
-  const fieldWidth = fieldRect.width;
-  const fieldHeight = fieldRect.height;
-  const rangeX = fieldWidth - FISH_SIZE_X;
-  const rangeY = fieldHeight - FISH_SIZE_Y;
-
-  for (let i = 0; i < count; i++) {
-    const item = document.createElement("img");
-    item.setAttribute("class", imgName);
-    item.setAttribute("alt", imgName);
-    item.setAttribute("src", imgSrc);
-    const x = Math.random() * rangeX;
-    const y = Math.random() * rangeY;
-    item.style.top = `${y}px`;
-    item.style.left = `${x}px`;
-    field.appendChild(item);
-  }
-}
+// Game Field Class
+const gameField = new Field(
+  FISH_COUNT,
+  URCHIN_COUNT,
+  FISH_SIZE_X,
+  FISH_SIZE_Y,
+  () => started
+);
 
 // Game start
 const timer = document.querySelector(".timer");
@@ -66,7 +47,7 @@ gameBtn.addEventListener("click", () => {
 });
 
 function start() {
-  if (field.innerHTML === "") initImage();
+  if (gameField.field.innerHTML === "") gameField.initImage();
   sound.playBg();
   showPauseIcon();
   showTimerAndCount();
@@ -122,7 +103,6 @@ function stop(reason) {
     sound.playAlert();
     hidePauseIcon();
   } else {
-    sound.playLose();
     hideGameBtn();
   }
 }
@@ -142,7 +122,7 @@ function hideGameBtn() {
 }
 
 // Game ReStart
-gamePopUp.setOnClickListener(() => {
+gamePopUp.setClickListener(() => {
   reStart();
 });
 
@@ -152,21 +132,16 @@ function reStart() {
   started = true;
   gameDuration = GAME_DURATION;
   countValue = 0;
-  initImage();
+  gameField.initImage();
   start();
 }
 
-// Fish Click
-field.addEventListener("click", event => {
-  if (!started) return;
-  const target = event.target;
-  if (target.matches(".fish")) {
-    target.remove();
-    sound.playCatch();
+gameField.setClickListener(onItemClick);
+function onItemClick(item) {
+  if (item === "fish") {
     ++countValue;
     fishCount();
-  } else if (target.matches(".urchin")) {
-    sound.playLose();
+  } else if (item === "urchin") {
     stop(Reason.lose);
   }
-});
+}
