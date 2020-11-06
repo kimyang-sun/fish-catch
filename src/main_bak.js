@@ -1,9 +1,5 @@
 "use strict";
 import * as sound from "./sound.js";
-import PopUp from "./popup.js";
-
-// Game PopUp Class
-const gamePopUp = new PopUp();
 
 const FISH_COUNT = 15;
 const URCHIN_COUNT = 5;
@@ -72,7 +68,7 @@ function start() {
   showTimerAndCount();
   startTimer();
   fishCount();
-  gamePopUp.hidePopUp();
+  hidePopUp();
 }
 
 function showPauseIcon() {
@@ -113,10 +109,14 @@ function updateTimerText(time) {
 }
 
 // Game Stop
+const popUp = document.querySelector(".game__popup");
+const popUpText = document.querySelector(".popup__text");
+const replayBtn = document.querySelector(".popup__replay__btn");
+
 function stop(reason) {
   stopTimer();
   started = false;
-  gamePopUp.showPopUp(reason);
+  showPopUp(reason);
   sound.stopBg();
   if (reason === Reason.pause) {
     sound.playAlert();
@@ -141,8 +141,31 @@ function hideGameBtn() {
   gameBtn.style.visibility = "hidden";
 }
 
+function showPopUp(text) {
+  let message;
+  switch (text) {
+    case Reason.pause:
+      message = "Replay❓";
+      break;
+    case Reason.win:
+      message = "You Won 🎉";
+      break;
+    case Reason.lose:
+      message = "You Lost 💀";
+      break;
+    default:
+      throw new Error("not valued reason");
+  }
+  popUpText.innerHTML = message;
+  popUp.classList.add("on");
+}
+
+function hidePopUp() {
+  popUp.classList.remove("on");
+}
+
 // Game ReStart
-gamePopUp.setOnClickListener(() => {
+replayBtn.addEventListener("click", () => {
   reStart();
 });
 
