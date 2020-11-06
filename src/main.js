@@ -1,4 +1,6 @@
 "use strict";
+import * as sound from "./sound.js";
+
 const FISH_COUNT = 15;
 const URCHIN_COUNT = 5;
 const FISH_SIZE_X = 100;
@@ -20,8 +22,8 @@ const fieldRect = field.getBoundingClientRect();
 
 function initImage() {
   field.innerHTML = "";
-  addItem("fish", "img/fish.png", 15);
-  addItem("urchin", "img/urchin.png", 5);
+  addItem("fish", "./img/fish.png", FISH_COUNT);
+  addItem("urchin", "./img/urchin.png", URCHIN_COUNT);
 }
 
 function addItem(imgName, imgSrc, count) {
@@ -61,6 +63,7 @@ gameBtn.addEventListener("click", () => {
 
 function start() {
   if (field.innerHTML === "") initImage();
+  sound.playBg();
   showPauseIcon();
   showTimerAndCount();
   startTimer();
@@ -92,6 +95,7 @@ function startTimer() {
 function fishCount() {
   count.innerHTML = FISH_COUNT - countValue;
   if (FISH_COUNT === countValue) {
+    sound.playWin();
     stop(Reason.win);
   }
 }
@@ -113,9 +117,12 @@ function stop(reason) {
   stopTimer();
   started = false;
   showPopUp(reason);
+  sound.stopBg();
   if (reason === Reason.pause) {
+    sound.playAlert();
     hidePauseIcon();
   } else {
+    sound.playLose();
     hideGameBtn();
   }
 }
@@ -163,6 +170,7 @@ replayBtn.addEventListener("click", () => {
 });
 
 function reStart() {
+  sound.stopWin();
   gameBtn.style.visibility = "visible";
   started = true;
   gameDuration = GAME_DURATION;
@@ -177,9 +185,11 @@ field.addEventListener("click", event => {
   const target = event.target;
   if (target.matches(".fish")) {
     target.remove();
+    sound.playCatch();
     ++countValue;
     fishCount();
   } else if (target.matches(".urchin")) {
+    sound.playLose();
     stop(Reason.lose);
   }
 });
