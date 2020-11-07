@@ -164,12 +164,12 @@ function hidePopUp() {
   popUp.classList.remove("on");
 }
 
-// Game ReStart
+// Game Restart
 replayBtn.addEventListener("click", () => {
-  reStart();
+  restart();
 });
 
-function reStart() {
+function restart() {
   sound.stopWin();
   gameBtn.style.visibility = "visible";
   started = true;

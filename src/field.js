@@ -1,5 +1,10 @@
 "use strict";
 import * as sound from "./sound.js";
+
+export const ItemType = Object.freeze({
+  fish: "fish",
+  urchin: "urchin",
+});
 export class Field {
   constructor(fishCount, urchinCount, fishSizeX, fishSizeY, isGameRunning) {
     this.fishCount = fishCount;
@@ -48,10 +53,10 @@ export class Field {
     if (target.matches(".fish")) {
       target.remove();
       sound.playCatch();
-      this.onItemClick && this.onItemClick("fish");
+      this.onItemClick && this.onItemClick(ItemType.fish);
     } else if (target.matches(".urchin")) {
       sound.playLose();
-      this.onItemClick && this.onItemClick("urchin");
+      this.onItemClick && this.onItemClick(ItemType.urchin);
     }
   }
 }
