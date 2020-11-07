@@ -1,4 +1,7 @@
 "use strict";
+import { Reason } from "./game.js";
+import * as sound from "./sound.js";
+
 export default class PopUp {
   constructor() {
     this.popUp = document.querySelector(".game__popup");
@@ -13,16 +16,19 @@ export default class PopUp {
     this.onClick = onClick;
   }
 
-  showPopUp(text) {
+  showPopUp(reason) {
     let message;
-    switch (text) {
-      case "pause":
+    switch (reason) {
+      case Reason.pause:
+        sound.playAlert();
         message = "Replay❓";
         break;
-      case "win":
+      case Reason.win:
+        sound.playWin();
         message = "You Won 🎉";
         break;
-      case "lose":
+      case Reason.lose:
+        sound.playLose();
         message = "You Lost 💀";
         break;
       default:
@@ -31,6 +37,7 @@ export default class PopUp {
     this.popUpText.innerHTML = message;
     this.popUp.classList.add("on");
   }
+
   hidePopUp() {
     this.popUp.classList.remove("on");
   }

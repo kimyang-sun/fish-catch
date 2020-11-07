@@ -1,27 +1,20 @@
 "use strict";
 import PopUp from "./popup.js";
-import { Game } from "./game.js";
-import * as sound from "./sound.js";
+import { GameBuilder } from "./game.js";
 
 // Game PopUp Class
 const gamePopUp = new PopUp();
 
-const FISH_COUNT = 15;
-const URCHIN_COUNT = 5;
-const FISH_SIZE_X = 100;
-const FISH_SIZE_Y = 56;
-const GAME_DURATION = 10;
-
 // Game Class
-const game = new Game(
-  GAME_DURATION,
-  FISH_COUNT,
-  URCHIN_COUNT,
-  FISH_SIZE_X,
-  FISH_SIZE_Y
-);
+const game = new GameBuilder()
+  .gameDuration(5)
+  .fishCount(10)
+  .urchinCount(5)
+  .fishSizeX(100)
+  .fishSizeY(56)
+  .build();
 
-// Game restart
+// Game restart Listener
 gamePopUp.setClickListener(() => {
   game.restart();
 });

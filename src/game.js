@@ -2,12 +2,50 @@
 import { Field, ItemType } from "./field.js";
 import * as sound from "./sound.js";
 
-const Reason = Object.freeze({
+export const Reason = Object.freeze({
   win: "win",
   lose: "lose",
   pause: "pause",
 });
-export class Game {
+
+// Builder Pattern
+export class GameBuilder {
+  gameDuration(num) {
+    this.gameDuration = num;
+    return this;
+  }
+
+  fishCount(num) {
+    this.fishCount = num;
+    return this;
+  }
+
+  urchinCount(num) {
+    this.urchinCount = num;
+    return this;
+  }
+
+  fishSizeX(num) {
+    this.fishSizeX = num;
+    return this;
+  }
+
+  fishSizeY(num) {
+    this.fishSizeY = num;
+    return this;
+  }
+
+  build() {
+    return new Game(
+      this.gameDuration,
+      this.fishCount,
+      this.urchinCount,
+      this.fishSizeX,
+      this.fishSizeY
+    );
+  }
+}
+class Game {
   constructor(gameDuration, fishCount, urchinCount, fishSizeX, fishSizeY) {
     this.GAME_DURATION = gameDuration;
     this.gameDuration = gameDuration;
@@ -87,7 +125,6 @@ export class Game {
   fishCount() {
     this.count.innerHTML = this.gameField.fishCount - this.countValue;
     if (this.gameField.fishCount === this.countValue) {
-      sound.playWin();
       this.stop(Reason.win);
     }
   }
@@ -107,7 +144,6 @@ export class Game {
     this.onShowPopUp(reason);
     sound.stopBg();
     if (reason === Reason.pause) {
-      sound.playAlert();
       this.hidePauseIcon();
     } else {
       this.hideGameBtn();
