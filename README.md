@@ -4,7 +4,8 @@
   ![pc](https://user-images.githubusercontent.com/56675004/98459298-e85f1800-21dc-11eb-8d1e-5f9dc4e5ba5b.png)
 
 - Mobile
-  ![image](https://user-images.githubusercontent.com/56675004/98459326-383ddf00-21dd-11eb-889d-e68ff473ef29.png)
+
+![image](https://user-images.githubusercontent.com/56675004/98459326-383ddf00-21dd-11eb-889d-e68ff473ef29.png)
 
 ## 사용 언어
 
